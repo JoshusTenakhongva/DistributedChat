@@ -31,6 +31,26 @@ public class ChatNode {
         }
     }
 
+    private class Message_listener extends Thread {
+
+        public void run() {
+
+            // Listen for a message from another node in the network
+
+            // Handle the message sent
+        }
+
+        public Socket listen_for_message() throws IOException {
+
+            // Create a server socket for this node
+            ServerSocket server_socket = makeNodeServer( 80 );
+
+            // Wait and listen for a message from another node
+            // Once we get a connection, return the socket 
+            return server_socket.accept();
+        }
+    }
+
     // hash of all peers connected
     private Hashtable<String, PeerData> peers;
 
@@ -99,7 +119,7 @@ public class ChatNode {
     }
 
     /*
-    * Create a server object and return it 
+    * Create a server object and return it
      */
     public ServerSocket makeNodeServer(int port) throws IOException {
         ServerSocket server = new ServerSocket(port);
@@ -108,6 +128,7 @@ public class ChatNode {
     }
 
     public void sendMessage(String toId, String msgType, String msgContent) {
+
 
     }
 }

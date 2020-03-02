@@ -1,9 +1,10 @@
-package p2pchat;
-
 import java.net.Socket;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/*
+* Object that contains the information and socket to connect to another node in the network
+ */
 public class Connection {
 
     private PeerData peerData;

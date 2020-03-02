@@ -14,7 +14,7 @@ public class ChatNode {
             this.socket = socket;
         }
 
-        public PeerHandler(String host, int port) {
+        public PeerHandler(String host, int port) throws IOException {
             this.socket = new Socket(host, port);
         }
 
@@ -43,28 +43,54 @@ public class ChatNode {
     // node status
     private boolean isRunning;
 
+    /*
+    * Constructor method
+     */
     public ChatNode(PeerData data) {
+
+        // Check if the Peer data input has its host data initialized
         if (data.getHost() == null) {
+
+            // If not, give it a Google host name
             data.setHost(getHostName());
         }
+
+        // Check if the peer data input has an ID
         if (data.getId() == null) {
+
+            // If not, set its id as the hostname and its port
             data.setId(data.getHost() + ":" + data.getPort());
         }
 
+        // Save the data for this node
         this.currData = data;
+
+        // Save the peer data of all of the other nodes in the network
         this.peers = new Hashtable<String, PeerData>();
+
+        // Save the threads that handle receiving messages from each node
         this.msgHandlers = new Hashtable<String, MessageHandler>();
+
+        // Set this node as running
         this.isRunning = true;
     }
 
+    // Create a Chat node using the other constructor using only the port
     public ChatNode(int port) {
         this(new PeerData(port));
     }
 
+    /*
+    * Method that gets a hostname from Google
+     */
     private String getHostName() {
         String host = "";
         try {
+
+            // Connect a socket to Google
             Socket socket = new Socket("www.google.com", 80);
+
+            // Get Google's address, then get its host address.
             host = socket.getLocalAddress().getHostAddress();
         } catch (Exception e) {
             System.out.println("Error getting host name. See:\n" + e);
@@ -72,6 +98,9 @@ public class ChatNode {
         return host;
     }
 
+    /*
+    * Create a server object and return it 
+     */
     public ServerSocket makeNodeServer(int port) throws IOException {
         ServerSocket server = new ServerSocket(port);
         server.setReuseAddress(true);

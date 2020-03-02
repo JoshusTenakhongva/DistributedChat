@@ -1,5 +1,3 @@
-package p2pchat;
-
 public class PeerData {
     private String id;
     private String host;
